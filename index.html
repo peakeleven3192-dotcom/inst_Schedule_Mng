@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>測器稼働状況表 操作説明書</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Segoe UI','Yu Gothic UI','Hiragino Sans',sans-serif;background:#f0f4f8;color:#1a202c;font-size:14px;display:flex}
+
+/* ===== Navigation ===== */
+nav{width:220px;min-height:100vh;background:#1e293b;color:#e2e8f0;position:fixed;top:0;left:0;padding:16px 0;overflow-y:auto;z-index:100}
+nav .logo{padding:12px 20px 18px;border-bottom:1px solid #334155;font-weight:700;font-size:13px;color:#7dd3fc;letter-spacing:.4px}
+nav .logo small{display:block;color:#64748b;font-size:11px;font-weight:400;margin-top:3px}
+nav h5{font-size:10px;text-transform:uppercase;letter-spacing:1.5px;color:#475569;padding:14px 20px 4px;font-weight:700}
+nav a{display:block;padding:7px 20px;color:#94a3b8;text-decoration:none;font-size:12px;border-left:3px solid transparent;transition:all .15s}
+nav a:hover{background:#334155;border-left-color:#38bdf8;color:#fff}
+
+/* ===== Main ===== */
+main{margin-left:220px;padding:28px 32px;flex:1;max-width:1020px}
+
+/* ===== Page header ===== */
+.page-header{background:linear-gradient(135deg,#0c4a6e,#0369a1);color:#fff;border-radius:10px;padding:28px 32px;margin-bottom:24px}
+.page-header h1{font-size:22px;margin-bottom:6px}
+.page-header p{color:#bae6fd;font-size:13px}
+
+/* ===== Sections ===== */
+section{background:#fff;border-radius:8px;padding:24px 28px;margin-bottom:20px;box-shadow:0 1px 4px rgba(0,0,0,.08)}
+section>h2{font-size:17px;font-weight:700;color:#0369a1;margin-bottom:16px;padding-bottom:8px;border-bottom:2px solid #bae6fd;display:flex;align-items:center;gap:8px}
+h3{font-size:14px;font-weight:600;color:#1e293b;margin:18px 0 8px}
+
+/* ===== Tables ===== */
+table{width:100%;border-collapse:collapse;font-size:12.5px;margin:10px 0}
+th{background:#0369a1;color:#fff;padding:8px 12px;text-align:left;font-weight:600}
+td{padding:7px 12px;border-bottom:1px solid #e2e8f0;vertical-align:top;line-height:1.6}
+tr:nth-child(even) td{background:#f8fafc}
+
+/* ===== Info boxes ===== */
+.info{border-left:4px solid #0ea5e9;background:#f0f9ff;padding:10px 14px;border-radius:0 6px 6px 0;margin:10px 0;font-size:12.5px;line-height:1.7}
+.warn{border-left:4px solid #f59e0b;background:#fffbeb;padding:10px 14px;border-radius:0 6px 6px 0;margin:10px 0;font-size:12.5px;line-height:1.7}
+.tip{border-left:4px solid #10b981;background:#ecfdf5;padding:10px 14px;border-radius:0 6px 6px 0;margin:10px 0;font-size:12.5px;line-height:1.7}
+
+/* ===== Screenshots ===== */
+figure.sc{border:2px solid #e2e8f0;border-radius:8px;overflow:hidden;margin:14px 0}
+figure.sc img{width:100%;display:block}
+figure.sc figcaption{background:#f8fafc;padding:7px 14px;font-size:12px;color:#64748b;border-top:1px solid #e2e8f0}
+
+/* ===== Sheet tabs ===== */
+.tabs{display:flex;gap:0;margin:14px 0 0}
+.tab{padding:8px 20px;border-radius:6px 6px 0 0;font-size:13px;font-weight:600;border:1px solid #cbd5e1;background:#f1f5f9;color:#475569;cursor:default}
+.tab.active{background:#0369a1;color:#fff;border-color:#0369a1}
+.tab-content{border:1px solid #cbd5e1;border-radius:0 0 6px 6px;padding:16px;font-size:12.5px;line-height:1.9;background:#fff}
+
+/* ===== Row grid ===== */
+.rg{display:grid;gap:2px;margin:12px 0;font-size:12px}
+.rc{padding:6px 5px;border:1px solid #e2e8f0;text-align:center;border-radius:2px;line-height:1.4}
+.rc-hdr{background:#0369a1;color:#fff;font-weight:700}
+.rc-date{background:#e0f2fe;border-color:#7dd3fc}
+.rc-sn{background:#dbeafe;border-color:#93c5fd}
+.rc-time{background:#dcfce7;border-color:#86efac}
+.rc-memo{background:#fff7ed;border-color:#fcd34d}
+.rc-sep{background:#f1f5f9;color:#94a3b8;font-size:10px}
+.rc-bio{background:#fce7f3;border-color:#f9a8d4}
+.rc-inst{background:#e0e7ff;font-weight:700;color:#3730a3;font-size:12px}
+.rc-hidden{background:#f8fafc;color:#cbd5e1;font-style:italic;font-size:11px}
+
+/* ===== Color chips ===== */
+.chip{display:inline-block;border-radius:4px;border:1px solid #ccc;vertical-align:middle}
+
+/* ===== Steps ===== */
+.step{display:flex;gap:14px;margin:10px 0;align-items:flex-start}
+.step-num{flex-shrink:0;background:#0369a1;color:#fff;border-radius:50%;width:26px;height:26px;line-height:26px;text-align:center;font-size:13px;font-weight:700;margin-top:1px}
+.step-body{font-size:13px;line-height:1.8;padding-top:1px}
+
+/* ===== Color demo row ===== */
+.color-row{display:flex;align-items:center;gap:6px;margin:4px 0;font-size:13px}
+.cbox{width:72px;height:26px;border-radius:4px;border:1px solid #ccc;flex-shrink:0}
+
+/* ===== Two column ===== */
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin:14px 0}
+
+/* ===== Inline image (smartphone) ===== */
+.sp-img{border-radius:8px;border:2px solid #e2e8f0;width:100%;display:block;margin:8px 0}
+.sp-cap{font-size:11.5px;color:#64748b;margin:0 0 14px;text-align:center}
+
+/* ===== Code ===== */
+code{background:#eff6ff;color:#1d4ed8;padding:1px 6px;border-radius:3px;font-family:'Consolas','Courier New',monospace;font-size:12px;font-weight:600}
+
+/* ===== Responsive ===== */
+@media(max-width:820px){
+  nav{display:none}
+  main{margin-left:0;padding:14px}
+  .two-col{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- ===== NAVIGATION ===== -->
+<nav>
+  <div class="logo">操作説明書<small>測器稼働状況表</small></div>
+  <h5>はじめに</h5>
+  <a href="#overview">このシートについて</a>
+  <h5>画面構成</h5>
+  <a href="#screens">3つのシート</a>
+  <a href="#site-layout">サイトシートの行構成</a>
+  <a href="#instruments">測器一覧</a>
+  <h5>入力方法</h5>
+  <a href="#sn-input">S/N の入力と回収</a>
+  <a href="#bio-input">生物付着板の入力</a>
+  <h5>セル色のルール</h5>
+  <a href="#sn-color">測器 ─ S/N 行の着色</a>
+  <a href="#bio-color">生物付着板の着色</a>
+  <h5>時刻入力パネル</h5>
+  <a href="#tp-pc">PC での起動と使い方</a>
+  <a href="#tp-sp">スマホでの起動と使い方</a>
+</nav>
+
+<!-- ===== MAIN ===== -->
+<main>
+
+<div class="page-header">
+  <h1>📋 測器稼働状況表 操作説明書</h1>
+  <p>画面構成・入力方法・セル色のルール・時刻入力パネルの使い方（シート共有ユーザー向け）</p>
+</div>
+
+<!-- ========== 概要 ========== -->
+<section id="overview">
+  <h2>📌 このシートについて</h2>
+  <p style="font-size:13px;line-height:1.9">
+    このスプレッドシートは、海洋測器（WaveHunter・ADCP・Signeture など）の
+    <strong>設置状況・稼働期間・投入/回収日時</strong>を日別に記録するための管理表です。<br>
+    測器の S/N（製造番号）を入力するだけで稼働期間のセルが自動でカラー表示されるため、
+    どの機器がいつ稼働しているかが一目でわかります。
+  </p>
+
+  <div class="info" style="margin-top:14px">
+    <strong>通常ユーザーができること：</strong><br>
+    S/N の選択・投入/回収日時の入力・メモの記入・時刻入力パネルの使用<br><br>
+    <strong>「（管理者）」メニューについて：</strong><br>
+    「機材管理」メニュー内の「（管理者）」と書かれた項目は管理者専用です。一般ユーザーは使用しないでください。
+  </div>
+</section>
+
+<!-- ========== 画面構成 ========== -->
+<section id="screens">
+  <h2>🖥 画面構成 ─ 3つのシート</h2>
+  <p style="font-size:13px;margin-bottom:14px">
+    画面下部（スマホでは底部のタブ）にシートのタブが並んでいます。
+  </p>
+
+  <div class="tabs">
+    <div class="tab active">機材（秋田）</div>
+    <div class="tab">機材（千葉）</div>
+    <div class="tab">設定</div>
+  </div>
+  <div class="tab-content">
+    <table style="margin:0">
+      <tr>
+        <th style="width:160px">シート名</th>
+        <th>役割</th>
+        <th style="width:120px">操作対象</th>
+      </tr>
+      <tr>
+        <td><strong>機材（秋田）</strong></td>
+        <td>秋田地点に設置している測器の稼働状況を日別に記録する</td>
+        <td>一般ユーザー</td>
+      </tr>
+      <tr>
+        <td><strong>機材（千葉）</strong></td>
+        <td>千葉地点に設置している測器の稼働状況を日別に記録する</td>
+        <td>一般ユーザー</td>
+      </tr>
+      <tr>
+        <td><strong>設定</strong></td>
+        <td>各測器の S/N リストと表示色コードを管理する（通常は変更しない）</td>
+        <td>管理者のみ</td>
+      </tr>
+    </table>
+  </div>
+
+  <figure class="sc" style="margin-top:18px">
+    <img src="manual/スマホでの表示イメージ.png" alt="スマホでの表示イメージ">
+    <figcaption>スマホでの表示例 ─ 画面下部のタブで「機材（秋田）」「機材（千葉）」「設定」を切り替えられます</figcaption>
+  </figure>
+</section>
+
+<!-- ========== サイトシートの行構成 ========== -->
+<section id="site-layout">
+  <h2>📊 サイトシートの行構成</h2>
+  <p style="font-size:13px;margin-bottom:12px">
+    「機材（秋田）」「機材（千葉）」の2シートは<strong>同じ構造</strong>をしています。<br>
+    <strong>A〜D列</strong>は固定ラベル列（スクロールしても常に表示）、<strong>E列以降</strong>が日付ごとのデータ入力列です。
+  </p>
+
+  <div class="rg" style="grid-template-columns:100px 90px 1fr">
+    <div class="rc rc-hdr">行の種類</div>
+    <div class="rc rc-hdr">D列（分類）</div>
+    <div class="rc rc-hdr">E列以降（日付別 入力エリア）</div>
+
+    <div class="rc">1行目</div>
+    <div class="rc" colspan="1">ヘッダー</div>
+    <div class="rc" style="text-align:left;padding-left:10px">地点 / 機材名 / 分類 のラベル行</div>
+
+    <div class="rc rc-date">2行目</div>
+    <div class="rc rc-date">── 日付行 ──</div>
+    <div class="rc rc-date" style="text-align:left;padding-left:10px">5/1　5/2　5/3　…　（列ごとに1日）　月末の右に区切り列あり</div>
+  </div>
+
+  <p style="font-size:12px;color:#475569;margin:12px 0 4px;font-weight:600">▼ 各測器ブロック（測器ごとに以下の行セットが繰り返されます）</p>
+
+  <div class="rg" style="grid-template-columns:100px 90px 1fr">
+    <div class="rc rc-sn">S/N行</div>
+    <div class="rc rc-sn">S/N</div>
+    <div class="rc rc-sn" style="text-align:left;padding-left:10px">プルダウンで S/N を選択 → 選択した日以降が自動でカラー表示</div>
+
+    <div class="rc rc-time">投入日時行</div>
+    <div class="rc rc-time">投入日時</div>
+    <div class="rc rc-time" style="text-align:left;padding-left:10px">HH:mm 形式で投入時刻を入力（時刻入力パネルを使用）</div>
+
+    <div class="rc rc-time">回収日時行</div>
+    <div class="rc rc-time">回収日時</div>
+    <div class="rc rc-time" style="text-align:left;padding-left:10px">HH:mm 形式で回収時刻を入力（時刻入力パネルを使用）</div>
+
+    <div class="rc rc-memo">メモ行</div>
+    <div class="rc rc-memo">メモ</div>
+    <div class="rc rc-memo" style="text-align:left;padding-left:10px">自由記入（特記事項・連絡事項など）</div>
+
+    <div class="rc rc-sep" style="grid-column:span 3">── 区切り行（測器間の境界線） ──</div>
+  </div>
+
+  <div class="info" style="margin-top:6px">
+    <strong>投入/回収日時行がない測器もあります：</strong><br>
+    「コバンザメ」と「ADCPブイ」は S/N 行とメモ行のみです（投入・回収日時の記録対象外）。
+  </div>
+
+  <p style="font-size:12px;color:#475569;margin:14px 0 4px;font-weight:600">▼ 生物付着板ブロック（各サイトシートの最下部）</p>
+
+  <div class="rg" style="grid-template-columns:100px 90px 1fr">
+    <div class="rc rc-bio">上層①</div>
+    <div class="rc rc-bio">ステータス</div>
+    <div class="rc rc-bio" style="text-align:left;padding-left:10px">プルダウンでステータス（設置 / 点検 / 撤去）を選択 → セルに色が付く</div>
+
+    <div class="rc rc-bio">上層②</div>
+    <div class="rc rc-bio">ステータス</div>
+    <div class="rc rc-bio" style="text-align:left;padding-left:10px">同上</div>
+
+    <div class="rc rc-bio">下層①</div>
+    <div class="rc rc-bio">ステータス</div>
+    <div class="rc rc-bio" style="text-align:left;padding-left:10px">同上</div>
+
+    <div class="rc rc-bio">下層②</div>
+    <div class="rc rc-bio">ステータス</div>
+    <div class="rc rc-bio" style="text-align:left;padding-left:10px">同上</div>
+
+    <div class="rc rc-memo">メモ行</div>
+    <div class="rc rc-memo">メモ</div>
+    <div class="rc rc-memo" style="text-align:left;padding-left:10px">自由記入</div>
+  </div>
+
+  <figure class="sc" style="margin-top:18px">
+    <img src="manual/PCによる入力シート.png" alt="PCでの入力シート表示">
+    <figcaption>PCでの表示例 ─ 左固定のA〜D列（地点・機材名・分類）、E列以降が日付ごとの入力エリアです</figcaption>
+  </figure>
+</section>
+
+<!-- ========== 測器一覧 ========== -->
+<section id="instruments">
+  <h2>🔧 測器一覧</h2>
+  <table>
+    <tr>
+      <th>測器名</th>
+      <th>投入・回収日時</th>
+      <th>S/N候補の管理列（設定シート）</th>
+    </tr>
+    <tr><td>WaveHunter</td><td>記録あり</td><td>B列</td></tr>
+    <tr><td>コバンザメ</td><td>記録なし</td><td>H列</td></tr>
+    <tr><td>ADCP</td><td>記録あり</td><td>D列</td></tr>
+    <tr><td>ADCPブイ</td><td>記録なし</td><td>F列</td></tr>
+    <tr><td>Signeture</td><td>記録あり</td><td>L列</td></tr>
+    <tr><td>気温計①</td><td>記録あり</td><td>N列（気温・水温計で共用）</td></tr>
+    <tr><td>気温計②</td><td>記録あり</td><td>N列（共用）</td></tr>
+    <tr><td>水温計 上層</td><td>記録あり</td><td>N列（共用）</td></tr>
+    <tr><td>水温計 下層</td><td>記録あり</td><td>N列（共用）</td></tr>
+  </table>
+  <div class="tip">
+    設定シートの各列には、その測器で使用している S/N 番号と表示色が登録されています。
+    S/N の追加・変更・色の変更は管理者が行います。
+  </div>
+</section>
+
+<!-- ========== S/N 入力 ========== -->
+<section id="sn-input">
+  <h2>✏️ S/N の入力と回収の記録</h2>
+
+  <h3>設置時の入力（S/N を選択する）</h3>
+  <div class="step">
+    <div class="step-num">1</div>
+    <div class="step-body">
+      対象測器の <strong>S/N 行</strong>（行ラベルに「S/N」と書かれた行）を確認します。
+    </div>
+  </div>
+  <div class="step">
+    <div class="step-num">2</div>
+    <div class="step-body">
+      設置した日付の列のセルをクリックし、<strong>▼ プルダウン</strong>から該当の S/N 番号を選択します。
+    </div>
+  </div>
+  <div class="step">
+    <div class="step-num">3</div>
+    <div class="step-body">
+      選択後、<strong>その日から今日まで</strong>の S/N 行が自動で色付けされます。
+    </div>
+  </div>
+
+  <h3 style="margin-top:20px">回収時の記録（<code>--</code> を入力する）</h3>
+  <div class="step">
+    <div class="step-num">1</div>
+    <div class="step-body">
+      同じ測器の S/N 行で、<strong>回収した日付の列</strong>のセルをクリックします。
+    </div>
+  </div>
+  <div class="step">
+    <div class="step-num">2</div>
+    <div class="step-body">
+      プルダウンから <code>--</code>（ダブルハイフン）を選択します。
+    </div>
+  </div>
+  <div class="step">
+    <div class="step-num">3</div>
+    <div class="step-body">
+      その日以降のセルが白にリセットされ、稼働終了が反映されます。
+    </div>
+  </div>
+
+  <div class="warn" style="margin-top:12px">
+    <strong>⚠ 空欄と「<code>-</code>」（シングルハイフン）の扱いに注意：</strong><br>
+    空欄のセルや「<code>-</code>」が入ったセルは「前の色を引き継ぐ」という意味になります。
+    稼働を終了させたい場合は必ず <code>--</code>（ダブルハイフン）を選択してください。
+  </div>
+</section>
+
+<!-- ========== 生物付着板 入力 ========== -->
+<section id="bio-input">
+  <h2>✏️ 生物付着板のステータス入力</h2>
+
+  <div class="step">
+    <div class="step-num">1</div>
+    <div class="step-body">
+      シート下部の生物付着板ブロック（上層①②・下層①②）の該当行を確認します。
+    </div>
+  </div>
+  <div class="step">
+    <div class="step-num">2</div>
+    <div class="step-body">
+      記録したい日付の列のセルをクリックし、プルダウンから <strong>「設置」「点検」「撤去」</strong> のいずれかを選択します。
+    </div>
+  </div>
+  <div class="step">
+    <div class="step-num">3</div>
+    <div class="step-body">
+      選択したステータスに対応した色が<strong>そのセル 1 つだけ</strong>に表示されます。
+    </div>
+  </div>
+
+  <div class="info">
+    測器の着色（前の日付から引き継ぐ）とは異なり、生物付着板は<strong>各セルに個別にステータスを入力</strong>する方式です。
+    空欄のセルには色は付きません。
+  </div>
+</section>
+
+<!-- ========== セル色: S/N行 ========== -->
+<section id="sn-color">
+  <h2>🎨 セル色のルール ─ 測器（S/N 行）</h2>
+  <p style="font-size:13px;margin-bottom:14px">
+    S/N 行のセルは、設定シートで各 S/N に割り当てられた色で自動着色されます。
+    <strong>着色は「今日まで」が上限</strong>で、未来の日付列は常に白のままです。
+  </p>
+
+  <h3>着色の具体例（5/3 に設置・5/7 に回収した場合）</h3>
+  <div class="rg" style="grid-template-columns:repeat(10,1fr);margin-bottom:6px">
+    <div class="rc rc-hdr">5/1</div>
+    <div class="rc rc-hdr">5/2</div>
+    <div class="rc rc-hdr" style="background:#0369a1">5/3<br><small style="font-size:9px">設置</small></div>
+    <div class="rc rc-hdr">5/4</div>
+    <div class="rc rc-hdr">5/5</div>
+    <div class="rc rc-hdr">5/6</div>
+    <div class="rc rc-hdr" style="background:#b91c1c">5/7<br><small style="font-size:9px">回収</small></div>
+    <div class="rc rc-hdr">5/8</div>
+    <div class="rc rc-hdr" style="background:#166534">今日</div>
+    <div class="rc rc-hdr" style="background:#475569">明日〜</div>
+
+    <div class="rc">空欄</div>
+    <div class="rc">空欄</div>
+    <div class="rc" style="background:#9bc2e6;font-weight:700">8121</div>
+    <div class="rc" style="background:#9bc2e6">─</div>
+    <div class="rc" style="background:#9bc2e6">─</div>
+    <div class="rc" style="background:#9bc2e6">─</div>
+    <div class="rc;font-weight:700"><code style="font-size:11px">--</code></div>
+    <div class="rc">白</div>
+    <div class="rc">白</div>
+    <div class="rc rc-sep" style="font-size:10px">（未来）</div>
+  </div>
+  <p style="font-size:12px;color:#64748b;margin-bottom:16px">
+    5/3 に「8121」を入力 → 5/3〜5/6 が水色に。5/7 に「<code>--</code>」を入力 → 5/7 以降は白にリセット。
+  </p>
+
+  <h3>S/N 行の入力値と色の変化まとめ</h3>
+  <table>
+    <tr>
+      <th>入力値</th>
+      <th>色の変化</th>
+      <th>いつ使う</th>
+    </tr>
+    <tr>
+      <td>S/N 番号（例: <code>8121</code>）</td>
+      <td>その日以降を設定色で塗る</td>
+      <td>測器を設置した当日</td>
+    </tr>
+    <tr>
+      <td><code>-</code>（シングルハイフン）</td>
+      <td>変化なし（前の色を継続）</td>
+      <td>「まだ設置していない」を明示したいとき</td>
+    </tr>
+    <tr>
+      <td><code>--</code>（ダブルハイフン）</td>
+      <td>以降の列を白にリセット</td>
+      <td>測器を回収した当日</td>
+    </tr>
+    <tr>
+      <td>空欄</td>
+      <td>変化なし（前の色を継続）</td>
+      <td>未入力のセル（設置期間中は自動で前の色が続く）</td>
+    </tr>
+  </table>
+
+  <div class="tip" style="margin-top:10px">
+    <strong>色は設定シートで管理されています：</strong><br>
+    各 S/N に対応する表示色は「設定」シートで管理者が登録・変更します。
+    同じ S/N 番号でも異なる測器（気温計①と気温計②など）が異なる色になる場合があります。
+  </div>
+</section>
+
+<!-- ========== セル色: 生物付着板 ========== -->
+<section id="bio-color">
+  <h2>🎨 セル色のルール ─ 生物付着板</h2>
+  <p style="font-size:13px;margin-bottom:12px">
+    生物付着板のセルは、プルダウンで選択したステータスに応じて<strong>そのセル 1 つだけ</strong>に色が付きます。
+    測器とは異なり、色の引き継ぎは行われません。
+  </p>
+
+  <table>
+    <tr>
+      <th>ステータス</th>
+      <th>セルの色</th>
+      <th>意味</th>
+    </tr>
+    <tr>
+      <td><strong>設置</strong></td>
+      <td>
+        <div style="display:flex;align-items:center;gap:8px">
+          <span class="chip" style="background:#c6efce;width:60px;height:22px;display:inline-block"></span>
+          <span style="font-size:11.5px;color:#555">淡い緑</span>
+        </div>
+      </td>
+      <td>生物付着板が海中に設置されている</td>
+    </tr>
+    <tr>
+      <td><strong>点検</strong></td>
+      <td>
+        <div style="display:flex;align-items:center;gap:8px">
+          <span class="chip" style="background:#ffeb9c;width:60px;height:22px;display:inline-block"></span>
+          <span style="font-size:11.5px;color:#555">淡い黄</span>
+        </div>
+      </td>
+      <td>点検・交換の作業を実施した</td>
+    </tr>
+    <tr>
+      <td><strong>撤去</strong></td>
+      <td>
+        <div style="display:flex;align-items:center;gap:8px">
+          <span class="chip" style="background:#d6dce4;width:60px;height:22px;display:inline-block"></span>
+          <span style="font-size:11.5px;color:#555">淡いグレー</span>
+        </div>
+      </td>
+      <td>生物付着板を撤去した</td>
+    </tr>
+    <tr>
+      <td>（空欄）</td>
+      <td>
+        <div style="display:flex;align-items:center;gap:8px">
+          <span class="chip" style="background:#fff;border:1px solid #ccc;width:60px;height:22px;display:inline-block"></span>
+          <span style="font-size:11.5px;color:#555">白（色なし）</span>
+        </div>
+      </td>
+      <td>未記入</td>
+    </tr>
+  </table>
+</section>
+
+<!-- ========== 時刻入力: PC ========== -->
+<section id="tp-pc">
+  <h2>⏱ 時刻入力パネルの使い方 ─ PC</h2>
+  <p style="font-size:13px;margin-bottom:14px">
+    投入日時・回収日時の行への時刻入力には、<strong>時刻入力パネル（右サイドバー）</strong>を使うと便利です。
+    直接セルに <code>HH:mm</code> 形式（例: <code>09:30</code>）で入力することもできます。
+  </p>
+
+  <h3>起動手順</h3>
+  <div class="step">
+    <div class="step-num">1</div>
+    <div class="step-body">
+      画面上部のメニューバーから <strong>「機材管理」</strong> をクリックします。
+    </div>
+  </div>
+  <div class="step">
+    <div class="step-num">2</div>
+    <div class="step-body">
+      表示されたメニューから <strong>「⏱ 時刻入力パネル」</strong> を選択します。
+    </div>
+  </div>
+  <div class="step">
+    <div class="step-num">3</div>
+    <div class="step-body">
+      画面右端に時刻入力パネル（サイドバー）が開きます。
+    </div>
+  </div>
+
+  <h3 style="margin-top:20px">時刻の入力手順</h3>
+  <div class="step">
+    <div class="step-num">4</div>
+    <div class="step-body">
+      シート上の <strong>投入日時または回収日時の行</strong> の、記録したい日付の列のセルをクリックします。
+      <br>サイドバーに「日付」と「項目（投入 / 回収）」が表示されれば準備完了です。
+    </div>
+  </div>
+  <div class="step">
+    <div class="step-num">5</div>
+    <div class="step-body">
+      <strong>「▼ 時刻を選択する」</strong>ボタンをクリックしてピッカーを開くか、
+      時刻フィールドを直接クリックして時刻を入力します。
+    </div>
+  </div>
+  <div class="step">
+    <div class="step-num">6</div>
+    <div class="step-body">
+      時刻を確定したら <strong>「入力」</strong>ボタンを押します。セルに時刻が書き込まれます。
+    </div>
+  </div>
+
+  <figure class="sc" style="margin-top:16px">
+    <img src="manual/タイムピッカー使用（PC）.png" alt="PCでの時刻入力パネル">
+    <figcaption>PCでの操作例 ─ 「機材管理」→「時刻入力パネル」で右サイドバーが開きます。セルを選択すると日付と項目（投入/回収）が自動表示されます</figcaption>
+  </figure>
+
+  <div class="info" style="margin-top:14px">
+    <strong>「クリア」ボタン：</strong>
+    入力済みの時刻を消去したいときは、対象セルを選択した状態で「クリア」を押してください。<br>
+    <strong>パネルが反応しない場合：</strong>
+    投入日時・回収日時の行以外のセルを選択している可能性があります。正しい行のセルをクリックし直してください。
+  </div>
+</section>
+
+<!-- ========== 時刻入力: スマホ ========== -->
+<section id="tp-sp">
+  <h2>⏱ 時刻入力パネルの使い方 ─ スマホ</h2>
+  <p style="font-size:13px;margin-bottom:14px">
+    スマホでは、セルをタップするとキーボード上部のツールバーに<strong>時計アイコン（⏰）</strong>が現れます。
+    タップすることでスマホネイティブの時刻ダイヤルが起動します。
+  </p>
+
+  <div class="two-col">
+    <div>
+      <h3>操作手順</h3>
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-body">
+          投入日時または回収日時の行の、記録したい日付のセルを<strong>タップ</strong>します。
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-body">
+          画面下部にキーボードが表示されます。
+          キーボード上部のツールバーにある<strong>時計アイコン（⏰）</strong>をタップします。
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-body">
+          「時刻を選択」ダイヤルが表示されます。
+          外側のリングで<strong>時</strong>、内側のリングで<strong>分</strong>を選択します。
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-body">
+          <strong>「OK」</strong>を押すと、セルに時刻が入力されます。
+        </div>
+      </div>
+      <div class="warn" style="margin-top:12px">
+        <strong>時計アイコンが出ない場合：</strong><br>
+        投入/回収日時行以外のセルをタップしているとアイコンは表示されません。正しい行のセルをタップし直してください。
+      </div>
+    </div>
+
+    <div>
+      <img class="sp-img" src="manual/スマホでタイムピッカー起動.png" alt="スマホで時計アイコンをタップ">
+      <p class="sp-cap">② キーボードツールバーの時計アイコン（⏰）をタップ</p>
+
+      <img class="sp-img" src="manual/スマホでのタイムピッカー使用.png" alt="スマホの時刻ダイヤル">
+      <p class="sp-cap">③④ 時刻ダイヤルで時・分を選択して「OK」</p>
+    </div>
+  </div>
+</section>
+
+<p style="text-align:center;color:#94a3b8;font-size:12px;margin:24px 0 8px">
+  測器稼働状況表 操作説明書 ─ 2026-05-24
+</p>
+
+</main>
+</body>
+</html>

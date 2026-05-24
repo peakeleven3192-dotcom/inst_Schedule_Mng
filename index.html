@@ -93,6 +93,22 @@ code{background:#eff6ff;color:#1d4ed8;padding:1px 6px;border-radius:3px;font-fam
   main{margin-left:0;padding:14px}
   .two-col{grid-template-columns:1fr}
 }
+
+/* ===== Print (A4) ===== */
+@media print{
+  @page{size:A4;margin:18mm 15mm}
+  nav{display:none}
+  body{display:block;font-size:11pt;background:#fff}
+  main{margin-left:0;padding:0;max-width:100%}
+  .page-header{background:#0369a1 !important;-webkit-print-color-adjust:exact;print-color-adjust:exact;padding:14px 18px;border-radius:6px}
+  section{box-shadow:none;border:1px solid #e2e8f0;page-break-inside:avoid;padding:14px 18px}
+  .rc-hdr,.rc-sn,.rc-time,.rc-memo,.rc-sep,.rc-bio,.rc-inst,.rc-date{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  th{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .rg div[style*="background"]{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  figure.sc figcaption{background:#f8fafc !important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  figure.sc-sp{max-width:30% !important}
+  #tp-sp .sp-img{max-width:100%}
+}
 </style>
 </head>
 <body>
@@ -180,7 +196,7 @@ code{background:#eff6ff;color:#1d4ed8;padding:1px 6px;border-radius:3px;font-fam
     </table>
   </div>
 
-  <figure class="sc" style="margin-top:18px">
+  <figure class="sc sc-sp" style="margin-top:18px;max-width:30%">
     <img src="manual/スマホでの表示イメージ.png" alt="スマホでの表示イメージ">
     <figcaption>スマホでの表示例 ─ 画面下部のタブで「機材（秋田）」「機材（千葉）」「設定」を切り替えられます</figcaption>
   </figure>
@@ -406,6 +422,35 @@ code{background:#eff6ff;color:#1d4ed8;padding:1px 6px;border-radius:3px;font-fam
     5/3 に「8121」を入力 → 5/3〜5/6 が水色に。5/7 に「<code>--</code>」を入力 → 5/7 以降は白にリセット。
   </p>
 
+  <h3>着色の具体例2（途中で別の S/N に交換した場合）</h3>
+  <div class="rg" style="grid-template-columns:repeat(10,1fr);margin-bottom:6px">
+    <div class="rc rc-hdr">5/1</div>
+    <div class="rc rc-hdr">5/2</div>
+    <div class="rc rc-hdr" style="background:#0369a1">5/3<br><small style="font-size:9px">設置</small></div>
+    <div class="rc rc-hdr">5/4</div>
+    <div class="rc rc-hdr">5/5</div>
+    <div class="rc rc-hdr">5/6</div>
+    <div class="rc rc-hdr">5/7</div>
+    <div class="rc rc-hdr" style="background:#7c3aed">5/8<br><small style="font-size:9px">交換</small></div>
+    <div class="rc rc-hdr" style="background:#166534">今日</div>
+    <div class="rc rc-hdr" style="background:#475569">明日〜</div>
+
+    <div class="rc">空欄</div>
+    <div class="rc">空欄</div>
+    <div class="rc" style="background:#9bc2e6;font-weight:700">8121</div>
+    <div class="rc" style="background:#9bc2e6">─</div>
+    <div class="rc" style="background:#9bc2e6">─</div>
+    <div class="rc" style="background:#9bc2e6">─</div>
+    <div class="rc" style="background:#9bc2e6">─</div>
+    <div class="rc" style="background:#fca5a5;font-weight:700">9022</div>
+    <div class="rc" style="background:#fca5a5">─</div>
+    <div class="rc rc-sep" style="font-size:10px">（未来）</div>
+  </div>
+  <p style="font-size:12px;color:#64748b;margin-bottom:16px">
+    5/3 に「8121」を入力 → 5/3〜5/7 が水色に。5/8 に別の S/N「9022」を入力 → <strong>5/8 以降は 9022 の色（ピンク）に自動で切り替わる。</strong>
+    途中交換の場合は <code>--</code> を入れずに直接新しい S/N を選択するだけでよい。
+  </p>
+
   <h3>S/N 行の入力値と色の変化まとめ</h3>
   <table>
     <tr>
@@ -570,45 +615,44 @@ code{background:#eff6ff;color:#1d4ed8;padding:1px 6px;border-radius:3px;font-fam
     タップすることでスマホネイティブの時刻ダイヤルが起動します。
   </p>
 
-  <div class="two-col">
-    <div>
-      <h3>操作手順</h3>
-      <div class="step">
-        <div class="step-num">1</div>
-        <div class="step-body">
-          投入日時または回収日時の行の、記録したい日付のセルを<strong>タップ</strong>します。
-        </div>
-      </div>
-      <div class="step">
-        <div class="step-num">2</div>
-        <div class="step-body">
-          画面下部にキーボードが表示されます。
-          キーボード上部のツールバーにある<strong>時計アイコン（⏰）</strong>をタップします。
-        </div>
-      </div>
-      <div class="step">
-        <div class="step-num">3</div>
-        <div class="step-body">
-          「時刻を選択」ダイヤルが表示されます。
-          外側のリングで<strong>時</strong>、内側のリングで<strong>分</strong>を選択します。
-        </div>
-      </div>
-      <div class="step">
-        <div class="step-num">4</div>
-        <div class="step-body">
-          <strong>「OK」</strong>を押すと、セルに時刻が入力されます。
-        </div>
-      </div>
-      <div class="warn" style="margin-top:12px">
-        <strong>時計アイコンが出ない場合：</strong><br>
-        投入/回収日時行以外のセルをタップしているとアイコンは表示されません。正しい行のセルをタップし直してください。
-      </div>
+  <h3>操作手順</h3>
+  <div class="step">
+    <div class="step-num">1</div>
+    <div class="step-body">
+      投入日時または回収日時の行の、記録したい日付のセルを<strong>タップ</strong>します。
     </div>
+  </div>
+  <div class="step">
+    <div class="step-num">2</div>
+    <div class="step-body">
+      画面下部にキーボードが表示されます。
+      キーボード上部のツールバーにある<strong>時計アイコン（⏰）</strong>をタップします。
+    </div>
+  </div>
+  <div class="step">
+    <div class="step-num">3</div>
+    <div class="step-body">
+      「時刻を選択」ダイヤルが表示されます。
+      外側のリングで<strong>時</strong>、内側のリングで<strong>分</strong>を選択します。
+    </div>
+  </div>
+  <div class="step">
+    <div class="step-num">4</div>
+    <div class="step-body">
+      <strong>「OK」</strong>を押すと、セルに時刻が入力されます。
+    </div>
+  </div>
+  <div class="warn" style="margin-top:12px">
+    <strong>時計アイコンが出ない場合：</strong><br>
+    投入/回収日時行以外のセルをタップしているとアイコンは表示されません。正しい行のセルをタップし直してください。
+  </div>
 
-    <div>
+  <div style="display:flex;gap:20px;margin-top:18px;align-items:flex-start">
+    <div style="max-width:30%">
       <img class="sp-img" src="manual/スマホでタイムピッカー起動.png" alt="スマホで時計アイコンをタップ">
       <p class="sp-cap">② キーボードツールバーの時計アイコン（⏰）をタップ</p>
-
+    </div>
+    <div style="max-width:30%">
       <img class="sp-img" src="manual/スマホでのタイムピッカー使用.png" alt="スマホの時刻ダイヤル">
       <p class="sp-cap">③④ 時刻ダイヤルで時・分を選択して「OK」</p>
     </div>
